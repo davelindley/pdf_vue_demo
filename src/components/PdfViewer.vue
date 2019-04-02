@@ -6,7 +6,7 @@
 
     <div id="pdfvuer">
       <!--Father forgive me for I have sinned. The :key is horrible here. Figure out better handling.-->
-      <pdf :src="pdfdata" v-for="(i, index) in numPages" :key="i * numPages" :id="i" :page="i"
+      <pdf :src="pdfdata" v-for="i in numPages" :key=getRandomInt() :id="i" :page="i"
         :scale.sync="scale" style="width:100%;margin:20px auto;">
 
         <template slot="loading">
@@ -37,6 +37,7 @@ export default {
       pdfdata: undefined,
       errors: [],
       scale: 'page-width',
+        //Add new Pdfs here.
         pdfs:[{'name':'tracemonkey', 'file':monkey},{'name':'lorem', 'file':lorem}],
         selected_pdf:lorem
     }
@@ -78,7 +79,10 @@ export default {
     },
     findPos(obj) {
       return obj.offsetTop;
-    }
+    },
+      getRandomInt() {
+        return Math.floor(Math.random() * Math.floor(9999));
+}
 
   }
 }
