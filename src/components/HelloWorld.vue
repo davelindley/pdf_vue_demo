@@ -1,5 +1,5 @@
 <template>
-  <pdf src="" :page="1">
+  <pdf src="../static/tracemonkey.pdf" :page="1">
     <template slot="loading">
       loading content here...
     </template>
