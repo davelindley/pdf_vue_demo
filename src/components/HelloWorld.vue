@@ -1,5 +1,5 @@
 <template>
-  <pdf src="../static/tracemonkey.pdf" :page="1">
+  <pdf :src="monkey" :page="2">
     <template slot="loading">
       loading content here...
     </template>
@@ -8,10 +8,12 @@
 
 <script>
 import pdf from 'pdfvuer'
-
+import monkey from '../assets/tracemonkey.pdf'
 export default {
+
   components: {
       pdf
-  }
+  },
+    data: () => ({ monkey })
 }
 </script>
