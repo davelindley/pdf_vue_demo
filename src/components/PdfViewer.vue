@@ -1,11 +1,20 @@
 <template>
-  <div id="pdfvuer">
-    <pdf :src="pdfdata" v-for="i in numPages" :key="i" :id="i" :page="i"
-      :scale.sync="scale" style="width:100%;margin:20px auto;">
-      <template slot="loading">
-        loading content here...
-      </template>
-    </pdf>
+  <div>
+    <select v-model="selected_pdf">
+      <option v-for="file in pdfs" :value=file.file>{{file.name}}</option>
+    </select>
+
+    <div id="pdfvuer">
+      <!--Father forgive me for I have sinned. The :key is horrible here. Figure out better handling.-->
+      <pdf :src="pdfdata" v-for="(i, index) in numPages" :key="i * numPages" :id="i" :page="i"
+        :scale.sync="scale" style="width:100%;margin:20px auto;">
+
+        <template slot="loading">
+          loading content here...
+        </template>
+
+      </pdf>
+    </div>
   </div>
 </template>
 
@@ -27,7 +36,9 @@ export default {
       numPages: 0,
       pdfdata: undefined,
       errors: [],
-      scale: 'page-width'
+      scale: 'page-width',
+        pdfs:[{'name':'tracemonkey', 'file':monkey},{'name':'lorem', 'file':lorem}],
+        selected_pdf:lorem
     }
   },
   computed: {
@@ -44,6 +55,13 @@ export default {
         this.getPdf();
       }
     },
+      selected_pdf: function(s){
+        if(s) {
+        this.getPdf();
+      }
+      }
+    ,
+    //  Add some scrolling functionality
     page: function (p) {
       if( window.pageYOffset <= this.findPos(document.getElementById(p)) || ( document.getElementById(p+1) && window.pageYOffset >= this.findPos(document.getElementById(p+1)) )) {
         document.getElementById(p).scrollIntoView();
@@ -53,7 +71,7 @@ export default {
   methods: {
     getPdf () {
       var self = this;
-      self.pdfdata = pdfvuer.createLoadingTask(monkey);
+      self.pdfdata = pdfvuer.createLoadingTask(this.selected_pdf);
       self.pdfdata.then(pdf => {
         self.numPages = pdf.numPages;
       });
@@ -61,9 +79,7 @@ export default {
     findPos(obj) {
       return obj.offsetTop;
     }
+
   }
 }
 </script>
-
-<style  scoped>
-</style>

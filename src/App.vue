@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <HelloWorld />
+    <PdfViewer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import PdfViewer from './components/PdfViewer'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    PdfViewer
   }
 }
 </script>
