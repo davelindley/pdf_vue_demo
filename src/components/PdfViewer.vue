@@ -11,8 +11,10 @@
 
 <script>
 import pdfvuer from 'pdfvuer'
-import $ from "jquery";
+
+//bs handling required by webpack
 import monkey from '../assets/tracemonkey.pdf'
+import lorem from '../assets/lorem-ipsum.pdf'
 
 export default {
     name:'Demo',
@@ -44,7 +46,6 @@ export default {
     },
     page: function (p) {
       if( window.pageYOffset <= this.findPos(document.getElementById(p)) || ( document.getElementById(p+1) && window.pageYOffset >= this.findPos(document.getElementById(p+1)) )) {
-        // window.scrollTo(0,this.findPos(document.getElementById(p)));
         document.getElementById(p).scrollIntoView();
       }
     }
@@ -55,36 +56,6 @@ export default {
       self.pdfdata = pdfvuer.createLoadingTask(monkey);
       self.pdfdata.then(pdf => {
         self.numPages = pdf.numPages;
-        window.onscroll = function() {
-          changePage()
-          stickyNav()
-        }
-
-        // Get the offset position of the navbar
-        var sticky = $('#buttons')[0].offsetTop
-
-        // Add the sticky class to the self.$refs.nav when you reach its scroll position. Remove "sticky" when you leave the scroll position
-        function stickyNav() {
-          if (window.pageYOffset >= sticky) {
-            $('#buttons')[0].classList.remove("hidden")
-          } else {
-            $('#buttons')[0].classList.add("hidden")
-          }
-        }
-
-        function changePage () {
-          var i = 1, count = Number(pdf.numPages);
-          do {
-            if(window.pageYOffset >= self.findPos(document.getElementById(i)) &&
-                window.pageYOffset <= self.findPos(document.getElementById(i+1))) {
-              self.page = i
-            }
-            i++
-          } while ( i < count)
-          if (window.pageYOffset >= self.findPos(document.getElementById(i))) {
-            self.page = i
-          }
-        }
       });
     },
     findPos(obj) {
@@ -94,13 +65,5 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-  #buttons {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-  /* Page content */
-  .content {
-    padding: 16px;
-  }
+<style  scoped>
 </style>
